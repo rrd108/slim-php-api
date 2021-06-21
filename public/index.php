@@ -3,6 +3,7 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Factory\AppFactory;
 use Rrd108\SlimPhpApi\DB;
+use Rrd108\SlimPhpApi\Middleware\TokenAuthMiddleware;
 use Tuupola\Middleware\CorsMiddleware;
 
 require __DIR__ . '/../vendor/autoload.php';
@@ -17,6 +18,8 @@ $app->add(new Tuupola\Middleware\CorsMiddleware([
     'methods' => ['GET', 'POST'],
     'headers.allow' => ['*'],
 ]));
+
+$app->add(new TokenAuthMiddleware('/~rrd/slim-php-api'));
 
 $app->get('/', function (Request $request, Response $response, $args) {
   $response->getBody()->write("Gauranga!");
