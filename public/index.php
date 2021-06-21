@@ -46,7 +46,18 @@ $app->post('/users/login', function (Request $request, Response $response, $args
   $stmt = $pdo->prepare('SELECT id, token FROM users WHERE email = ? AND password = ?');
   $stmt->execute([$data['email'], md5($data['password'])]);
   $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
-  // TODO Implement auth
+  $response->getBody()->write(json_encode($data));
+  return $response
+    ->withHeader('content-type', 'application/json')
+    ->withStatus(200);
+});
+
+$app->get('/products', function (Request $request, Response $response, $args) {
+  $db = new DB();
+  $pdo = $db->connect();
+  $stmt = $pdo->prepare('SELECT * FROM products');
+  $stmt->execute();
+  $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
   $response->getBody()->write(json_encode($data));
   return $response
     ->withHeader('content-type', 'application/json')
