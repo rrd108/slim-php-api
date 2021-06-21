@@ -64,4 +64,17 @@ $app->get('/products', function (Request $request, Response $response, $args) {
     ->withStatus(200);
 });
 
+$app->post('/products', function (Request $request, Response $response, $args) {
+  $data = $request->getParsedBody();
+  $db = new DB();
+  $pdo = $db->connect();
+  $stmt = $pdo->prepare('INSERT INTO products (category, name, description, picture, price, stock) VALUES (?, ?, ?, ?, ?, ?)');
+  $stmt->execute([$data['category'], $data['name'], $data['description'], $data['picture'], $data['price'], $data['stock']]);
+  $data['id'] = $pdo->lastInsertId();
+  $response->getBody()->write(json_encode($data));
+  return $response
+    ->withHeader('content-type', 'application/json')
+    ->withStatus(200);
+});
+
 $app->run();
