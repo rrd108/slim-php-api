@@ -10,8 +10,8 @@ $app = AppFactory::create();
 $app->setBasePath('/~rrd/slim-php-api');        // http://localhost/~rrd/slim-php-api/
 
 $app->get('/', function (Request $request, Response $response, $args) {
-    $response->getBody()->write("Gauranga!");
-    return $response;
+  $response->getBody()->write("Gauranga!");
+  return $response;
 });
 
 $app->get('/users', function (Request $request, Response $response, $args) {
