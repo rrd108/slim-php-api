@@ -1,4 +1,7 @@
 <?php
+namespace Rrd108\SlimPhpApi;
+
+use PDO;
 
 class DB {
   private $host = 'localhost';
