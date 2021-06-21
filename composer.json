@@ -13,5 +13,8 @@
             "email": "rrd@1108.cc"
         }
     ],
-    "require": {}
+    "require": {
+        "slim/slim": "4.*",
+        "slim/psr7": "^1.4"
+    }
 }
