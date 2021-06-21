@@ -1,0 +1,17 @@
+{
+    "name": "rrd108/slim-php-api",
+    "description": "Simple Slim REST API",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Rrd108\\SlimPhpApi\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "rrd",
+            "email": "rrd@1108.cc"
+        }
+    ],
+    "require": {}
+}
