@@ -1,7 +1,7 @@
 <?php
 
 $noAuthResources = [
-  'GET' => ['/products'],
+  'GET' => ['/', '/products'],
   'POST' => ['/users/login'],
   'PATCH' => [],
   'DELETE' => []

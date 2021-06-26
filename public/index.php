@@ -9,50 +9,48 @@ use Tuupola\Middleware\CorsMiddleware;
 require __DIR__ . '/../vendor/autoload.php';
 
 $app = AppFactory::create();
-$app->setBasePath('/~rrd/slim-php-api');        // http://localhost/~rrd/slim-php-api/
+$app->setBasePath('/~rrd/slim-php-api');
 
 $app->addBodyParsingMiddleware();
-
 $app->add(new Tuupola\Middleware\CorsMiddleware([
     'origin' => ['*'],
     'methods' => ['GET', 'POST'],
     'headers.allow' => ['*'],
 ]));
-
 $app->add(new TokenAuthMiddleware('/~rrd/slim-php-api'));
 
-$app->get('/', function (Request $request, Response $response, $args) {
-  $response->getBody()->write("Gauranga!");
-  return $response;
+$app->get('/', function (Request $request, Response $response, array $args) {
+    $response->getBody()->write('Gauranga');
+    return $response;
 });
 
-$app->get('/users', function (Request $request, Response $response, $args) {
+$app->get('/users', function (Request $request, Response $response, array $args) {
+  // lekérjük az összes usert az adatbázisból
   $db = new DB();
   $pdo = $db->connect();
   $stmt = $pdo->prepare('SELECT * FROM users');
   $stmt->execute();
   $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
-  // TODO Implement auth
   $response->getBody()->write(json_encode($data));
   return $response
     ->withHeader('content-type', 'application/json')
     ->withStatus(200);
 });
 
-$app->post('/users/login', function (Request $request, Response $response, $args) {
+$app->post('/users/login', function (Request $request, Response $response, array $args) {
   $data = $request->getParsedBody();
   $db = new DB();
   $pdo = $db->connect();
   $stmt = $pdo->prepare('SELECT id, token FROM users WHERE email = ? AND password = ?');
   $stmt->execute([$data['email'], md5($data['password'])]);
-  $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+  $data = $stmt->fetch(PDO::FETCH_ASSOC);
   $response->getBody()->write(json_encode($data));
   return $response
     ->withHeader('content-type', 'application/json')
     ->withStatus(200);
 });
 
-$app->get('/products', function (Request $request, Response $response, $args) {
+$app->get('/products', function (Request $request, Response $response, array $args) {
   $db = new DB();
   $pdo = $db->connect();
   $stmt = $pdo->prepare('SELECT * FROM products');
@@ -64,7 +62,7 @@ $app->get('/products', function (Request $request, Response $response, $args) {
     ->withStatus(200);
 });
 
-$app->post('/products', function (Request $request, Response $response, $args) {
+$app->post('/products', function (Request $request, Response $response, array $args) {
   $data = $request->getParsedBody();
   $db = new DB();
   $pdo = $db->connect();
