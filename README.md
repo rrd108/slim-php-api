@@ -1,5 +1,8 @@
 # Slim PHP REST API
 
+## Videó
+[Slim PHP REST API 70 perc alatt](https://www.youtube.com/watch?v=l1YEWxTJol8)
+
 ## Endpoints
 
 | URL           | HTTP method | Auth | JSON Response       |
